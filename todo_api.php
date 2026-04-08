@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 // read current todos from json file
 $todo_file = 'todo.json';
 if (file_exists($todo_file)) {
-    $jason_data = file_get_contents($todo_file);
+    $json_data = file_get_contents($todo_file);
     $todos = json_decode($json_data, true);
 } else {
     $todos = [];
