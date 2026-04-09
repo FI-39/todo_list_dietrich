@@ -18,4 +18,22 @@ document.getElementById('todo-form').addEventListener('submit', function (e) {
         document.getElementById('todo-input').value = '';
     });
 });
- 
+
+function fetchTodos() {
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(todos => {
+            const todoList = document.getElementById('todo-list');
+            todoList.innerHTML = '';
+            todos.forEach(todo => {
+                const li = document.createElement('li');
+                li.textContent = todo;
+                todoList.appendChild(li);
+            });
+        });
+}
+
+window.addEventListener("load", (event) => {
+        console.log(event);
+        fetchTodos();
+});
