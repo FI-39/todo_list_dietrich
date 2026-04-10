@@ -36,19 +36,78 @@ document.getElementById('todo-form').addEventListener('submit', function (e) {
     });
 });
 
+const getDeleteButton = (item) => {
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Löschen';
+    
+    // Handle delete button click
+    deleteButton.addEventListener('click', function() {
+        console.log("Löschen-Button geklickt für Item: ", item);
+
+    fetch(apiUrl, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: item.id })
+        })
+        .then(response => response.json())
+        .then(() => {
+            fetchTodos(); // Reload todo list
+        });
+    });
+
+    return deleteButton;
+}
+
+const getCompleteButton = (item) => {
+    const completeButton = document.createElement('button');
+    completeButton.textContent = item.completed ?'Unerledigt' : 'Erledigt';
+    //Handle complete button click
+    completeButton.addEventListener('click', function() {
+    fetch(apiUrl, {
+    method: 'PATCH',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id: item.id, completed: !item.completed })
+})
+    .then(response => response.json())
+    .then((data) => {
+
+    console.log(data);
+    fetchTodos(); // Reload todo list
+    });
+});
+    return completeButton;
+}
+
 function fetchTodos() {
     fetch(apiUrl)
         .then(response => response.json())
         .then(todos => {
             const todoList = document.getElementById('todo-list');
             todoList.innerHTML = '';
+
             todos.forEach(todo => {
                 const li = document.createElement('li');
-                li.textContent = todo;
-                todoList.appendChild(li);
-            });
+                li.id = todo.id;
+                li.textContent = todo.title;
+
+                if (todo.completed) {
+                    li.textContent += " -> erledigt :-)";
+                    li.style.textDecoration = 'line-through';
+                }
+
+                if (!todo.completed) {
+                    li.appendChild(getCompleteButton(todo));
+                }
+                li.appendChild(getDeleteButton(todo));
+
+                todoList.appendChild(li);  
         });
-    }
+    });
+}
 
 function displayMessage(text, isError = true) {
     const messageDiv = document.getElementById('message');
