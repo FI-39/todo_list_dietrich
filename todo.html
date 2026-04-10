@@ -6,12 +6,17 @@
     <title>Todo-Liste</title>
 </head>
 <body>
-  <h1>Meine To-do-Liste</h1>
-  <div id="message" style="color: red; font-weight: bold; min-height: 24px;"></div>
-  <form id="todo-form">
+    <h1>Meine To-do-Liste</h1>
+    <div id="message" style="color: red; font-weight: bold; min-height: 24px;"></div>
+    <form id="todo-form">
         <input type="text" id="todo-input" placeholder="Neuer Eintrag">
         <button type="submit">Hinzufügen</button>
     </form>
+    <form id=""todo-update-form" style="display: none;">
+    <input type="hidden" id="todo-id">
+    <input type="text" id="todo-update-input">
+    <button type="submit">Update</button>
+    </form>"
     <ul id="todo-list"></ul>
  
     <script src="todo.js" type="text/javascript" defer></script>  
