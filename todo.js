@@ -82,6 +82,22 @@ const getCompleteButton = (item) => {
     return completeButton;
 }
 
+const getUpdateButton = (item) => {
+    const updateButton = document.createElemenet('button');
+    updateButton.textContent = 'Update';
+
+    //handle update button klick
+    updateButton.addEventListener('click', () => {
+        document.getElementById('todo-id').value = item.id;
+        document.getElementById('todo-update-input').value = item.title;
+        document.getElementById('todo-form').style.display = 'none';
+        document.getElementById('todo-update-form').style.display = 'blcok';
+    });
+
+    return updateButton;
+}
+
+
 function fetchTodos() {
     fetch(apiUrl)
         .then(response => response.json())
@@ -103,6 +119,7 @@ function fetchTodos() {
                     li.appendChild(getCompleteButton(todo));
                 }
                 li.appendChild(getDeleteButton(todo));
+                li.appendChild(getUpdateButton(item));
 
                 todoList.appendChild(li);  
         });
